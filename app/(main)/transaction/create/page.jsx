@@ -1,5 +1,5 @@
 "use client"; // Add this at the top for client components
-
+import { Suspense } from 'react';
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getUserAccounts } from "@/actions/dashboard";
@@ -7,7 +7,7 @@ import { defaultCategories } from "@/data/categories";
 import { AddTransactionForm } from "../_components/transaction-form";
 import { getTransaction } from "@/actions/transaction";
 
-export default function AddTransactionPage() {
+function AddTransactionPageContent() {
   const searchParams = useSearchParams();
   const editId = searchParams.get("edit");
 
@@ -43,5 +43,13 @@ export default function AddTransactionPage() {
         initialData={initialData}
       />
     </div>
+  );
+}
+
+export default function AddTransactionPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AddTransactionPageContent />
+    </Suspense>
   );
 }
